@@ -3,6 +3,9 @@ plugins {
 	id 'maven-publish'
 }
 
+def lwjgl_version="3.2.2"
+def breakoutapi_version="7a14620"
+
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -11,11 +14,8 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -27,8 +27,18 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
+	modCompile "com.github.raphydaphy:breakoutapi:$breakoutapi_version"
+
+	implementation "org.lwjgl:lwjgl-nanovg:$lwjgl_version"
+	runtimeOnly "org.lwjgl:lwjgl-nanovg:$lwjgl_version:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-nanovg:$lwjgl_version:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-nanovg:$lwjgl_version:natives-macos"
+
+	implementation "org.lwjgl:lwjgl-yoga:$lwjgl_version"
+	runtimeOnly "org.lwjgl:lwjgl-yoga:$lwjgl_version:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-yoga:$lwjgl_version:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-yoga:$lwjgl_version:natives-macos"
+
 }
 
 processResources {
